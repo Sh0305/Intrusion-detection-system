@@ -1,3 +1,8 @@
+from scapy.all import sniff, IP, TCP
+from collections import defaultdict
+import threading
+import queue
+
 #capturing packets(packet capture.py)
 class PacketCapture:
     def __init__(self):
