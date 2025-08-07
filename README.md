@@ -48,47 +48,41 @@ To stop the IDS, press Ctrl+C.
 Design Decisions
 
 1.Asynchronous Packet Capture: Uses a separate thread with Scapy's sniff() to avoid blocking the main detection logic.
+
 2. Flow-Based Features: Tracks each network flow identified by source/destination IPs and ports to compute meaningful traffic statistics.
+
 3. Signature Detection: Simple rules check TCP flag combinations and traffic rates to detect attacks like SYN flood and port scans.
+
 4.Anomaly Detection: An Isolation Forest model dynamically trained on observed normal traffic features to find unusual patterns.
+
 5.Logging: Alerts are logged with timestamps and severity levels for later analysis.
+
 6.Cross-Platform Support: Designed to work on both Windows and Linux with minimal modifications.
 
-Project Structure: 
-IDS_Project/
-│
-├── packet_capture.py      # Packet sniffing and queuing
-├── traffic_analysis.py    # Feature extraction and flow statistics
-├── detection.py           # Signature and anomaly detection logic
-├── alerting.py            # Logging and alert generation
-├── main_ids.py            # Main program that integrates all modules
-├── requirements.txt       # Project dependencies
-├── README.md              # This documentation file
-ids_alerts.log         # Generated log file with detection alerts
 
 Extending the IDS
-Possible future improvements include:
+1. Possible future improvements include:
 
-Expanding the signature database to detect more attack patterns
+2. Expanding the signature database to detect more attack patterns
 
-Adding notifications via email or messaging services for critical alerts
+3. Adding notifications via email or messaging services for critical alerts
 
-Implementing a GUI dashboard for real-time monitoring
+4. Implementing a GUI dashboard for real-time monitoring
 
-Supporting additional network protocols (UDP, ICMP) and payload inspection
+5. Supporting additional network protocols (UDP, ICMP) and payload inspection
 
-Enhancing anomaly detection with more features or advanced ML models
+6. Enhancing anomaly detection with more features or advanced ML models
 
-Adding configuration files and command-line options for user flexibility
+7. Adding configuration files and command-line options for user flexibility
 
 Troubleshooting
-Packet capture requires admin/root privileges: Always run with elevated permissions.
+1. Packet capture requires admin/root privileges: Always run with elevated permissions.
 
-Npcap missing or not in WinPcap mode: Packet sniffing will fail on Windows without this driver properly installed.
+2. Npcap missing or not in WinPcap mode: Packet sniffing will fail on Windows without this driver properly installed.
 
-No alerts generated: Try generating test traffic such as port scans or SYN floods on your network to trigger detections.
+3. No alerts generated: Try generating test traffic such as port scans or SYN floods on your network to trigger detections.
 
-Python or pip command not recognized: Ensure Python 3.11 installation folder and its Scripts subfolder are added to system PATH.
+4. Python or pip command not recognized: Ensure Python 3.11 installation folder and its Scripts subfolder are added to system PATH.
 
 License
 Specify your preferred license here (e.g., MIT License, GPL, Proprietary).
