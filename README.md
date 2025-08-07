@@ -84,11 +84,10 @@ Troubleshooting
 
 4. Python or pip command not recognized: Ensure Python 3.11 installation folder and its Scripts subfolder are added to system PATH.
 
-License
-Specify your preferred license here (e.g., MIT License, GPL, Proprietary).
 
-Acknowledgments
-Based on tutorials and resources from FreeCodeCamp, Scapy documentation, and scikit-learn examples
+Acknowledgments: 
 
-Npcap team for the Windows packet capture driver
+1.Based on tutorials and resources from FreeCodeCamp, Scapy documentation, and scikit-learn examples
+
+2.Npcap team for the Windows packet capture driver
 
