@@ -1,0 +1,93 @@
+# rules/signatures.yaml
+# Each rule is evaluated against the feature dict produced by PacketCapture.
+# Fields:
+#   name        — human-readable rule name (shown in alerts)
+#   severity    — low | medium | high | critical
+#   description — what the rule detects
+#   conditions  — list of field/op/value checks (ALL must be true)
+#     field     — key in the features dict
+#     op        — gt | lt | gte | lte | eq | band (bitwise AND non-zero)
+#     value     — numeric threshold
+
+rules:
+  - name: syn_flood
+    severity: critical
+    description: >
+      High-rate stream of SYN packets without corresponding ACKs,
+      consistent with a TCP SYN flood DoS attack.
+    conditions:
+      - field: tcp_flags
+        op: band
+        value: 0x02   # SYN bit
+      - field: packet_rate
+        op: gt
+        value: 100
+
+  - name: port_scan
+    severity: high
+    description: >
+      Small packets probing many destination ports from a single source,
+      consistent with a TCP or UDP port scan.
+    conditions:
+      - field: unique_dest_ports
+        op: gt
+        value: 20
+      - field: packet_size
+        op: lt
+        value: 100
+
+  - name: ssh_brute_force
+    severity: high
+    description: >
+      High-rate connection attempts to port 22 (SSH), consistent with
+      an automated brute-force credential attack.
+    conditions:
+      - field: packet_rate
+        op: gt
+        value: 10
+      - field: syn_count
+        op: gt
+        value: 5
+
+  - name: udp_flood
+    severity: critical
+    description: >
+      Very high byte rate on a UDP flow, consistent with a UDP amplification
+      or flood denial-of-service attack.
+    conditions:
+      - field: byte_rate
+        op: gt
+        value: 1000000   # 1 MB/s per flow
+
+  - name: rst_flood
+    severity: medium
+    description: >
+      Abnormally high count of TCP RST packets, which can indicate
+      TCP reset injection or a misbehaving connection.
+    conditions:
+      - field: rst_count
+        op: gt
+        value: 20
+
+  - name: null_scan
+    severity: medium
+    description: >
+      TCP packets with no flags set (NULL scan), a common stealth
+      port-scanning technique that bypasses some firewalls.
+    conditions:
+      - field: tcp_flags
+        op: eq
+        value: 0
+      - field: packet_rate
+        op: gt
+        value: 5
+
+  - name: xmas_scan
+    severity: medium
+    description: >
+      TCP packets with FIN, PSH, and URG flags set simultaneously
+      (Christmas tree / XMAS scan).
+    conditions:
+      - field: tcp_flags
+        op: band
+        value: 0x29   # FIN=0x01, PSH=0x08, URG=0x20
